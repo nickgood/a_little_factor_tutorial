@@ -127,6 +127,7 @@ code > span.ot { color: #007020; }
 
 <section class="main-content">
 <hr />
+<p>Click <a href="http://htmlpreview.github.io/?https://github.com/nickgood/a_little_factor_tutorial/blob/master/factor_tutorial.html">here</a> to view the marked-up html file.</p>
 <div id="packages" class="section level1">
 <h1>Packages</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(forcats)</a>
@@ -172,12 +173,12 @@ code > span.ot { color: #007020; }
 <a class="sourceLine" id="cb7-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">head</span>(stoves, <span class="dv">4</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 4 x 1
-##           type
-##         &lt;fctr&gt;
-## 1      control
-## 2 rocket_elbow
-## 3 rocket_elbow
-## 4          lpg</code></pre>
+##          type
+##        &lt;fctr&gt;
+## 1    gasifier
+## 2         lpg
+## 3         lpg
+## 4 three_stone</code></pre>
 <p>We can use the <code>levels()</code> functions to return a character vector containing the distinct levels the a factor contains. We can then interrogate the vector returned by <code>levels()</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">levels</span>(stoves<span class="op">$</span>type)</a></code></pre></div>
 <pre><code>## [1] &quot;control&quot;      &quot;fan_rocket&quot;   &quot;gasifier&quot;     &quot;lpg&quot;         
@@ -194,12 +195,12 @@ code > span.ot { color: #007020; }
 ## # Groups:   type [6]
 ##           type     n
 ##         &lt;fctr&gt; &lt;int&gt;
-## 1      control    85
-## 2   fan_rocket    84
-## 3     gasifier    87
-## 4          lpg    90
-## 5 rocket_elbow    88
-## 6  three_stone    66</code></pre>
+## 1      control    77
+## 2   fan_rocket    98
+## 3     gasifier    97
+## 4          lpg    76
+## 5 rocket_elbow    68
+## 6  three_stone    84</code></pre>
 <hr />
 </div>
 <div id="ordering-factors" class="section level1">
@@ -226,8 +227,8 @@ code > span.ot { color: #007020; }
 <a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">                  </span><span class="kw">mutate</span>(<span class="dt">type =</span>  <span class="kw">fct_infreq</span>(type))</a>
 <a class="sourceLine" id="cb20-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb20-4" data-line-number="4"><span class="kw">levels</span>(stove_exposure<span class="op">$</span>type)</a></code></pre></div>
-<pre><code>## [1] &quot;lpg&quot;          &quot;rocket_elbow&quot; &quot;gasifier&quot;     &quot;control&quot;     
-## [5] &quot;fan_rocket&quot;   &quot;three_stone&quot;</code></pre>
+<pre><code>## [1] &quot;fan_rocket&quot;   &quot;gasifier&quot;     &quot;three_stone&quot;  &quot;control&quot;     
+## [5] &quot;lpg&quot;          &quot;rocket_elbow&quot;</code></pre>
 <hr />
 </div>
 </div>
