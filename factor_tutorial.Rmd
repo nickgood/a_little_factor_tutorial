@@ -1,0 +1,115 @@
+---
+title: "A factor tutorial in R"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    toc: true
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = "figures/",
+                      echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+---
+
+# Packages
+
+```{r}
+library(forcats)
+library(dplyr)
+library(readr)
+```
+
+---
+
+# Making Factors
+
+Factors are a categorical vectors of variables with an order mapped onto them. By default `R` will apply alphabetical ordering to a factor.
+
+We can create factors using the `factor()` function:
+
+```{r factor}
+treatments <- factor(c("lpg", "three_stone", "gasifier",
+                       "fan_rocket", "rocket_elbow", "control"))
+treatments
+```
+
+We can check use `parse_factor()` to see if the levels we are creating match a vector of factors. This is useful when checking for anomolies in a dataset for example:
+
+```{r parse, warning = TRUE}
+x <- c("control", "lpg", "lpg", "gasifier", "control",
+       "fan_rocket", "rocket elbow", "rocket_elbow")
+
+levels <- c("lpg", "three_stone", "gasifier",
+            "fan_rocket", "rocket_elbow", "control")
+
+parse_factor(x, levels)
+```
+
+Note how the variable in the vector `x` is coerced to `<NA>` and a warning message is given. Note also, there there is a level slot for `three_stone_fire` in the new factor object, even though it doen't appear in the data vector `x`.
+
+
+```
+
+---
+
+# Summarizing Factors
+
+```{r}
+#count()
+#levels()
+```
+
+---
+
+# Ordering Factors
+
+## by variable
+
+```{r}
+#fct_reorder()
+```
+
+## by frequency
+
+```{r}
+#fct_infreq()
+```
+
+---
+
+# Manipulating Levels
+
+## move
+
+```{r}
+#fct_rev()
+#fct_relevel()
+```
+
+## change
+
+```{r}
+#fct_recode()
+```
+
+## combine
+
+```{r}
+#fct_recode()
+#fct_collapse()
+#fct_lump()
+```
+
+---
+
+# Ploting Factors
+
+```{r}
+
+```
+
+---
+
