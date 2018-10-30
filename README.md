@@ -1,2 +1,2 @@
-# a_little_factor_tutorial
+# A little factor tutorial
 Manipulating factors with forcats in R
