@@ -48,34 +48,71 @@ levels <- c("lpg", "three_stone", "gasifier",
 parse_factor(x, levels)
 ```
 
-Note how the variable in the vector `x` is coerced to `<NA>` and a warning message is given. Note also, there there is a level slot for `three_stone_fire` in the new factor object, even though it doen't appear in the data vector `x`.
-
-
-```
+Note how the variable in the vector `x` is coerced to `<NA>` and a warning message is given. Note also, there is a level slot for `three_stone_fire` in the new object, even though it doen't appear in the data vector `x`.
 
 ---
 
 # Summarizing Factors
 
+We'll often encounter a column of class `factor` in a dataframe e.g.: 
+
 ```{r}
-#count()
-#levels()
+stoves <- data_frame(type = factor(sample(levels, 500, replace = TRUE)))
+
+head(stoves, 4)
+```
+
+We can use the `levels()` functions to return a character vector containing the distinct levels the a factor contains. We can then interrogate the vector returned by `levels()`:
+
+```{r}
+levels(stoves$type)
+
+class(levels(stoves$type))
+
+length(levels(stoves$type))
+```
+
+We can use `group_by()` and `count()` to produce a summary of the factor column:
+
+```{r}
+stoves %>% 
+group_by(type) %>%
+count()
 ```
 
 ---
 
 # Ordering Factors
 
+Factors may not be a useful order. There are a number of ways to a factor:
+
 ## by variable
 
 ```{r}
-#fct_reorder()
+ stove_exposure <- stoves %>%
+                   left_join(data_frame(type = factor(levels),
+                                        pm25 = c(10, 500, 35, 100, 250, 0)),
+                             by = "type")
+```
+
+We can use `fct_reorder()` to reorder the levels in a factor by a different variable. For example, let's reorder `type` by the $PM_{2.5}$ exposure level:
+
+```{r}
+stove_exposure <- stove_exposure %>%
+                  mutate(type =  fct_reorder(type, pm25))
+
+levels(stove_exposure$type)
 ```
 
 ## by frequency
 
+We can use `fct_infreq()` to reorder the levels in a factor by the frequency that they occur. For example, let's reorder `type`:
+
 ```{r}
-#fct_infreq()
+stove_exposure <- stove_exposure %>%
+                  mutate(type =  fct_infreq(type))
+
+levels(stove_exposure$type)
 ```
 
 ---
