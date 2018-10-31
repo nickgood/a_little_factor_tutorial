@@ -115,6 +115,7 @@ code > span.ot { color: #007020; }
 <li><a href="#ordering-factors">Ordering Factors</a><ul>
 <li><a href="#by-variable">by variable</a></li>
 <li><a href="#by-frequency">by frequency</a></li>
+<li><a href="#by-first">by first</a></li>
 </ul></li>
 <li><a href="#manipulating-levels">Manipulating Levels</a><ul>
 <li><a href="#move">move</a></li>
@@ -173,12 +174,12 @@ code > span.ot { color: #007020; }
 <a class="sourceLine" id="cb7-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">head</span>(stoves, <span class="dv">4</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 4 x 1
-##          type
-##        &lt;fctr&gt;
-## 1    gasifier
-## 2         lpg
-## 3         lpg
-## 4 three_stone</code></pre>
+##         type
+##       &lt;fctr&gt;
+## 1 fan_rocket
+## 2        lpg
+## 3        lpg
+## 4    control</code></pre>
 <p>We can use the <code>levels()</code> functions to return a character vector containing the distinct levels the a factor contains. We can then interrogate the vector returned by <code>levels()</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">levels</span>(stoves<span class="op">$</span>type)</a></code></pre></div>
 <pre><code>## [1] &quot;control&quot;      &quot;fan_rocket&quot;   &quot;gasifier&quot;     &quot;lpg&quot;         
@@ -195,12 +196,12 @@ code > span.ot { color: #007020; }
 ## # Groups:   type [6]
 ##           type     n
 ##         &lt;fctr&gt; &lt;int&gt;
-## 1      control    77
-## 2   fan_rocket    98
-## 3     gasifier    97
-## 4          lpg    76
-## 5 rocket_elbow    68
-## 6  three_stone    84</code></pre>
+## 1      control    80
+## 2   fan_rocket    92
+## 3     gasifier    85
+## 4          lpg    78
+## 5 rocket_elbow    87
+## 6  three_stone    78</code></pre>
 <hr />
 </div>
 <div id="ordering-factors" class="section level1">
@@ -227,8 +228,19 @@ code > span.ot { color: #007020; }
 <a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">                  </span><span class="kw">mutate</span>(<span class="dt">type =</span>  <span class="kw">fct_infreq</span>(type))</a>
 <a class="sourceLine" id="cb20-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb20-4" data-line-number="4"><span class="kw">levels</span>(stove_exposure<span class="op">$</span>type)</a></code></pre></div>
-<pre><code>## [1] &quot;fan_rocket&quot;   &quot;gasifier&quot;     &quot;three_stone&quot;  &quot;control&quot;     
-## [5] &quot;lpg&quot;          &quot;rocket_elbow&quot;</code></pre>
+<pre><code>## [1] &quot;fan_rocket&quot;   &quot;rocket_elbow&quot; &quot;gasifier&quot;     &quot;control&quot;     
+## [5] &quot;lpg&quot;          &quot;three_stone&quot;</code></pre>
+</div>
+<div id="by-first" class="section level2">
+<h2>by first</h2>
+<p>We can use <code>fct_inorder()</code> to reorder the levels in a factor by order in which they appear in the vector:</p>
+<pre><code>##  [1] fan_rocket   lpg          lpg          control      gasifier    
+##  [6] fan_rocket   gasifier     fan_rocket   rocket_elbow rocket_elbow
+## Levels: fan_rocket rocket_elbow gasifier control lpg three_stone</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">fct_inorder</span>(stove_exposure<span class="op">$</span>type) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">levels</span>()</a></code></pre></div>
+<pre><code>## [1] &quot;fan_rocket&quot;   &quot;lpg&quot;          &quot;control&quot;      &quot;gasifier&quot;    
+## [5] &quot;rocket_elbow&quot; &quot;three_stone&quot;</code></pre>
 <hr />
 </div>
 </div>
@@ -236,18 +248,65 @@ code > span.ot { color: #007020; }
 <h1>Manipulating Levels</h1>
 <div id="move" class="section level2">
 <h2>move</h2>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co">#fct_rev()</span></a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="co">#fct_relevel()</span></a></code></pre></div>
+<p>The <code>fct_rev()</code> functions reverses the order of a factor:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">levels</span>(stove_exposure<span class="op">$</span>type)</a></code></pre></div>
+<pre><code>## [1] &quot;fan_rocket&quot;   &quot;rocket_elbow&quot; &quot;gasifier&quot;     &quot;control&quot;     
+## [5] &quot;lpg&quot;          &quot;three_stone&quot;</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">levels</span>(<span class="kw">fct_rev</span>(stove_exposure<span class="op">$</span>type))</a></code></pre></div>
+<pre><code>## [1] &quot;three_stone&quot;  &quot;lpg&quot;          &quot;control&quot;      &quot;gasifier&quot;    
+## [5] &quot;rocket_elbow&quot; &quot;fan_rocket&quot;</code></pre>
+<p>We can use the <code>fct_relevel()</code> function to move the position of factors.</p>
+<ul>
+<li>move <code>control</code> to the first position:</li>
+</ul>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">levels</span>(<span class="kw">fct_relevel</span>(stove_exposure<span class="op">$</span>type, <span class="st">&quot;control&quot;</span>))</a></code></pre></div>
+<pre><code>## [1] &quot;control&quot;      &quot;fan_rocket&quot;   &quot;rocket_elbow&quot; &quot;gasifier&quot;    
+## [5] &quot;lpg&quot;          &quot;three_stone&quot;</code></pre>
+<ul>
+<li>move <code>three_stone</code> to the end position:</li>
+</ul>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">fct_relevel</span>(stove_exposure<span class="op">$</span>type, <span class="st">&quot;three_stone&quot;</span>, <span class="dt">after =</span> <span class="ot">Inf</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw">levels</span>()</a></code></pre></div>
+<pre><code>## [1] &quot;fan_rocket&quot;   &quot;rocket_elbow&quot; &quot;gasifier&quot;     &quot;control&quot;     
+## [5] &quot;lpg&quot;          &quot;three_stone&quot;</code></pre>
 </div>
 <div id="change" class="section level2">
 <h2>change</h2>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co">#fct_recode()</span></a></code></pre></div>
+<p>To change levels we can use the <code>fct_recode()</code> function:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">fct_recode</span>(stove_exposure<span class="op">$</span>type,</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">           <span class="st">&quot;Control&quot;</span> =<span class="st"> &quot;control&quot;</span>,</a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">           <span class="st">&quot;LPG&quot;</span> =<span class="st"> &quot;lpg&quot;</span>,</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4">           <span class="st">&quot;Gasifier&quot;</span> =<span class="st"> &quot;gasifier&quot;</span>,</a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">           <span class="st">&quot;Fan Rocket&quot;</span> =<span class="st"> &quot;fan_rocket&quot;</span>,</a>
+<a class="sourceLine" id="cb33-6" data-line-number="6">           <span class="st">&quot;Rocket Elbow&quot;</span> =<span class="st"> &quot;rocket_elbow&quot;</span>,</a>
+<a class="sourceLine" id="cb33-7" data-line-number="7">           <span class="st">&quot;Three Stone Fire&quot;</span> =<span class="st"> &quot;three_stone&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb33-8" data-line-number="8"><span class="kw">levels</span>()</a></code></pre></div>
+<pre><code>## [1] &quot;Fan Rocket&quot;       &quot;Rocket Elbow&quot;     &quot;Gasifier&quot;        
+## [4] &quot;Control&quot;          &quot;LPG&quot;              &quot;Three Stone Fire&quot;</code></pre>
 </div>
 <div id="combine" class="section level2">
 <h2>combine</h2>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co">#fct_recode()</span></a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="co">#fct_collapse()</span></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co">#fct_lump()</span></a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">fct_collapse</span>(stove_exposure<span class="op">$</span>type,</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">             <span class="dt">wood =</span> <span class="kw">c</span>(<span class="st">&quot;gasifier&quot;</span>, <span class="st">&quot;fan_rocket&quot;</span>,</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">                      <span class="st">&quot;rocket_elbow&quot;</span>, <span class="st">&quot;three_stone&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="kw">levels</span>()</a></code></pre></div>
+<pre><code>## [1] &quot;wood&quot;    &quot;control&quot; &quot;lpg&quot;</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">fct_lump</span>(stove_exposure<span class="op">$</span>type, <span class="dt">n =</span> <span class="dv">3</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="kw">levels</span>()</a></code></pre></div>
+<pre><code>## [1] &quot;fan_rocket&quot;   &quot;rocket_elbow&quot; &quot;gasifier&quot;     &quot;Other&quot;</code></pre>
+<p>We can use the <code>fct_other()</code> to combine levels. The <code>keep</code> argument allows us to specify the levels to preserve:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">fct_other</span>(stove_exposure<span class="op">$</span>type,</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">          <span class="dt">keep =</span> <span class="kw">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;three_stone&quot;</span>),</a>
+<a class="sourceLine" id="cb39-3" data-line-number="3">          <span class="dt">other_level =</span> <span class="st">&quot;other_stove&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="kw">levels</span>()</a></code></pre></div>
+<pre><code>## [1] &quot;control&quot;     &quot;three_stone&quot; &quot;other_stove&quot;</code></pre>
+<p>The <code>drop</code> argument allows us to specify the levels to remove:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">fct_other</span>(stove_exposure<span class="op">$</span>type,</a>
+<a class="sourceLine" id="cb41-2" data-line-number="2">          <span class="dt">drop =</span> <span class="kw">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;three_stone&quot;</span>),</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3">          <span class="dt">other_level =</span> <span class="st">&quot;other_stove&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="kw">levels</span>()</a></code></pre></div>
+<pre><code>## [1] &quot;fan_rocket&quot;   &quot;rocket_elbow&quot; &quot;gasifier&quot;     &quot;lpg&quot;         
+## [5] &quot;other_stove&quot;</code></pre>
 <hr />
 </div>
 </div>
