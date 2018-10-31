@@ -117,37 +117,98 @@ stove_exposure <- stove_exposure %>%
 levels(stove_exposure$type)
 ```
 
+## by first
+
+We can use `fct_inorder()` to reorder the levels in a factor by order in which they appear in the vector:
+
+```{r, echo = FALSE}
+stove_exposure$type[1:10]
+```
+
+
+```{r}
+fct_inorder(stove_exposure$type) %>%
+levels()
+```
+
 ---
 
 # Manipulating Levels
 
 ## move
 
+The `fct_rev()` functions reverses the order of a factor:
+
 ```{r}
-#fct_rev()
-#fct_relevel()
+levels(stove_exposure$type)
+```
+
+```{r}
+levels(fct_rev(stove_exposure$type))
+```
+
+We can use the `fct_relevel()` function to move the position of factors.
+
+* move `control` to the first position:
+
+```{r}
+levels(fct_relevel(stove_exposure$type, "control"))
+```
+
+* move `three_stone` to the end position:
+
+```{r}
+fct_relevel(stove_exposure$type, "three_stone", after = Inf) %>%
+levels()
 ```
 
 ## change
 
+To change levels we can use the `fct_recode()` function:
+
 ```{r}
-#fct_recode()
+fct_recode(stove_exposure$type,
+           "Control" = "control",
+           "LPG" = "lpg",
+           "Gasifier" = "gasifier",
+           "Fan Rocket" = "fan_rocket",
+           "Rocket Elbow" = "rocket_elbow",
+           "Three Stone Fire" = "three_stone") %>%
+levels()
 ```
 
 ## combine
 
 ```{r}
-#fct_recode()
-#fct_collapse()
-#fct_lump()
+fct_collapse(stove_exposure$type,
+             wood = c("gasifier", "fan_rocket",
+                      "rocket_elbow", "three_stone")) %>%
+levels()
+
 ```
 
----
+```{r}
+fct_lump(stove_exposure$type, n = 3) %>%
+levels()
+```
 
-# Ploting Factors
+We can use the `fct_other()` to combine levels. The `keep` argument allows us to specify the levels to preserve:
+
 
 ```{r}
+fct_other(stove_exposure$type,
+          keep = c("control", "three_stone"),
+          other_level = "other_stove") %>%
+levels()
+```
 
+The `drop` argument allows us to specify the levels to remove:
+
+```{r}
+fct_other(stove_exposure$type,
+          drop = c("control", "three_stone"),
+          other_level = "other_stove") %>%
+levels()
 ```
 
 ---
